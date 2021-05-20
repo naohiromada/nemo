@@ -1,0 +1,64 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: auto;
+    text-align: left;
+    font-size: 24px;
+    background: url(../img/ビジネスモデル・キャンバス.jpg);
+    background-size: cover;
+}
+
+ul {
+    margin: 0%;
+    position: fixed;
+    right: 0;
+    width: 50%;
+    text-align: center;
+    display: table;
+    background-color: darkslategray;
+    color: #fff;
+}
+
+li {
+    list-style-type: none;
+    border: 1px solid #666;
+    /* background-color: #FFF; */
+    display: table-cell;
+    /* 定義 */
+    cursor: pointer;
+}
+
+li:hover {
+    background: #0066CC;
+    color: #fff;
+}
+
+input,
+textarea {
+    margin: 3%;
+    width: 95%;
+    font-size: 80%;
+    box-shadow: 3px 3px 3px 3px #555;
+}
+
+input {
+    height: 30px;
+}
+
+textarea {
+    height: 230px;
+}
+
+
+/* meno css  */
+
+.note {
+    background-color: aliceblue;
+    padding: 10px;
+}
+
+.note>input[type="text"] {
+    width: 90%;
+    height: 5rem;
+}

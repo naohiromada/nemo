@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>myMemoPad中級</title>
+    <link rel="stylesheet" href="css/sample03.css">
+</head>
+
+<body>
+    <header>
+        <select id="myselect">
+            <option value="ビジネスモデル・キャンバス">ビジネスモデル・キャンバス</option> 
+            <option value="デザイン思考">デザイン思考</option>
+            <option value="ビジョナリー思考">ビジョナリー思考</option>
+        </select>
+
+        <ul>
+            <li> <input type="button" value="付箋" onclick="new Card()"></input>
+            </li>
+            <!-- <li id="add">add</li> -->
+            <li id="save">Save</li>
+            <li id="clear">Clear</li>
+        </ul>
+
+    </header>
+
+    <main>
+        <!-- <input type="text" id="input">
+        <textarea id="text_area"></textarea> -->
+        <!-- <input type="button" value="Click Me" onclick="new Card()"></input> -->
+
+    </main>
+
+    <footer>
+
+    </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        var isMouseDown = false;
+        var offsetX, offsetY;
+        var cont;
+
+        function draggable(handle, container) {
+            container.style.position = "absolute";
+            handle.onmousedown = function(event) {
+                event.preventDefault();
+                var rect = container.getBoundingClientRect();
+                offsetX = event.screenX - rect.left;
+                offsetY = event.screenY - rect.top;
+                cont = container;
+                isMouseDown = true;
+            }
+            document.onmouseup = function() {
+                isMouseDown = false;
+            }
+            document.onmousemove = function(event) {
+                if (isMouseDown == true) {
+                    cont.style.left = event.screenX - offsetX + "px";
+                    cont.style.top = event.screenY - offsetY + "px";
+                }
+            }
+        }
+
+        function Card() {
+            this.container = document.createElement('div');
+            this.container.style.width = "150px";
+            this.handle = document.createElement('div');
+            this.handle.style.width = "50px";
+            this.handle.style.height = "20px";
+            this.handle.style.backgroundColor = "orange";
+            this.txtarea = document.createElement('textarea');
+            this.txtarea.cols = 30;
+            this.txtarea.rows = 3;
+            this.container.appendChild(this.handle);
+            this.container.appendChild(this.txtarea);
+            document.body.appendChild(this.container);
+            draggable(this.handle, this.container);
+            return this.container;
+        }
+
+        // 
+        保存
+        // 
+        $(function() {
+            //1.Save クリックイベント
+            $('#save').on('click', function() { // saveボタンクリックイベント
+                var title = $('#input').val();
+                var text = $('#text_area').val();
+                var obj = {
+                    "title": title,
+                    "text": text
+                };
+
+                var json = JSON.stringify(obj);
+                localStorage.setItem('memo02', json);
+
+            });
+
+            //2.clear クリックイベント
+            // ②データを削除するときの処理
+            $('#clear').on('click', function() { // clearボタンクリックイベント
+                localStorage.removeItem('memo02'); // key名を指定して削除
+                $('#input').val(""); // textareaを空文字で上書き
+                $('#text_area').val("");
+            });
+
+            //3.ページ読み込み：保存データ取得表示
+            if (localStorage.getItem('memo02')) {
+                var json_get = localStorage.getItem('memo02');
+                var obj_get = JSON.parse(json_get);
+                $('#input').val(obj_get.title);
+                $('#text_area').val(obj_get.text);
+            }
+        });
+    </script>
+    <!-- <input type="button" value="Click Me" onclick="new Card()"></input> -->
+
+</body>
+
+</html>
